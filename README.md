@@ -81,6 +81,7 @@ Options can either be used from command line or in configuration file.
                           ledger file where to read payees/accounts
     --mapping-file FILE   file which holds the mappings
     --quiet, -q           do not prompt if account can be deduced
+    --reverse, -R         reverse the order of the transactions
     --skip-lines INT      number of lines to skip from CSV file
     --tags, -t            prompt for transaction tags
     --template-file FILE  file which holds the template
@@ -229,6 +230,11 @@ Warning: the file must exists so that mapping are added to file.
 
 will not prompt if account can be deduced from existing mapping. Default
 is `False`.
+
+**`--reverse, -R`**
+
+will reverse the order of the transactions. Affects the order of the iteration
+through the transactions and the output. Default is `False`.
 
 **`--skip-lines INT`**
 

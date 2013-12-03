@@ -66,7 +66,8 @@ DEFAULTS = dotdict({
     'quiet': False,
     'skip_lines': str(1),
     'tags': False,
-    'delimiter': ','})
+    'delimiter': ',',
+    'reverse': False})
 
 FILE_DEFAULTS = dotdict({
     'config_file': [
@@ -279,6 +280,11 @@ def parse_args_and_config_file():
         metavar='STR',
         help=('delimiter between field in the csv'
               ' (default: {0})'.format(DEFAULTS.csv_date_format)))
+    parser.add_argument(
+        '--reverse', '-R',
+        action='store_true',
+        help=('reverse the order of the transactions'
+              ' (default: {0})'.format(DEFAULTS.reverse)))
 
     args = parser.parse_args(remaining_argv)
 
@@ -623,8 +629,12 @@ def main():
             "\n".join(csv_lines[options.skip_lines:options.skip_lines + 3]), options.delimiter)
         bank_reader = csv.reader(csv_lines[options.skip_lines:], dialect)
 
+        bank_reader_list = enumerate(bank_reader)
+        if options.reverse:
+            bank_reader_list = reversed(list(bank_reader_list))
+
         ledger_lines = []
-        for i, row in enumerate(bank_reader):
+        for i, row in bank_reader_list:
             # Skip any empty lines in the input
             if len(row) == 0:
                 continue
